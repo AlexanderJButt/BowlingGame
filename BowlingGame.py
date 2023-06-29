@@ -24,9 +24,11 @@ class BowlingGame:
         result = 0
         rollIndex=0
         for frameIndex in range(10):
-            if self.isStrike(rollIndex):
+            if frameIndex == 9:
+                result += self.lastFrame(rollIndex)
+            elif self.isStrike(rollIndex):
                 result += self.strikeScore(rollIndex)
-                rollIndex +=1
+                rollIndex +=2
             elif self.isSpare(rollIndex):
                 result += self.spareScore(rollIndex)
                 rollIndex +=2
@@ -45,14 +47,18 @@ class BowlingGame:
         '''isSpare function
         
             checks to see if the bowls made was a spare'''
-        return self.scoreBoard[rollIndex]+ self.scoreBoard[rollIndex+1]==10
-    
+        return self.scoreBoard[rollIndex]+ self.scoreBoard[rollIndex+1] == 10  and  self.scoreBoard[rollIndex] != 10
+
     def strikeScore(self,rollIndex):
         '''strikeScore function
         
             calculates the score when a strike has been bowled'''
-        return  10+ self.scoreBoard[rollIndex+2]+ self.scoreBoard[rollIndex+3]
-        
+        if self.scoreBoard[rollIndex+2] != 10:
+            return  10+ self.scoreBoard[rollIndex+2]+ self.scoreBoard[rollIndex+3]
+        elif self.scoreBoard[rollIndex+2] + self.scoreBoard[rollIndex+4] == 20:
+            return 10+10+10
+        else:
+            return 10+10+self.scoreBoard[rollIndex+5]
     def spareScore(self,rollIndex):
         '''spearScore function
         
@@ -64,8 +70,13 @@ class BowlingGame:
         
             calculates the score when neither a strike or spear have been bowled'''
         return self.scoreBoard[rollIndex] + self.scoreBoard[rollIndex + 1]
-		
-
+	
+    def lastFrame(self,rollIndex):
+        if self.scoreBoard[rollIndex] + self.scoreBoard[rollIndex+1] < 10:
+            return self.frameScore(rollIndex)
+        else:
+            return self.scoreBoard[rollIndex] + self.scoreBoard[rollIndex+1] + self.scoreBoard[rollIndex+2]
+        
 #Your tasks for code parts:
 #1: If there are any bugs in the code, you have to remove using debugging and run the project and test cases.
 #2: Refactor the code (Improve its structure without changing external behaviour).
