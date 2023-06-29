@@ -52,13 +52,14 @@ class BowlingGame:
     def strikeScore(self,rollIndex):
         '''strikeScore function
         
-            calculates the score when a strike has been bowled'''
+            calculates the score when a strike has been bowled and takes in to account if multipule strikes are made in a row.'''
         if self.scoreBoard[rollIndex+2] != 10:
             return  10+ self.scoreBoard[rollIndex+2]+ self.scoreBoard[rollIndex+3]
         elif self.scoreBoard[rollIndex+2] + self.scoreBoard[rollIndex+4] == 20:
             return 10+10+10
         else:
             return 10+10+self.scoreBoard[rollIndex+5]
+        
     def spareScore(self,rollIndex):
         '''spearScore function
         
